@@ -1,7 +1,7 @@
 // Defines API routes for attendance management.
 const express = require('express');
 const { startAttendanceSession, endAttendanceSession, markStudentAttendance, getStudentCalendarAttendance } = require('../controllers/attendanceController');
-const authMiddleware = require('../middleware/authMiddleware'); // Middleware to protect routes
+const authMiddleware = require('../middleware/authMiddleWare'); // Middleware to protect routes (fixed case)
 
 const router = express.Router();
 
