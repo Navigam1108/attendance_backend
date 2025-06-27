@@ -3,14 +3,19 @@ require('dotenv').config({ path: './.env' }); // Load environment variables
 const { Pool } = require('pg'); // PostgreSQL client
 const bcrypt = require('bcryptjs'); // For password hashing
 
-// Database connection configuration.
-const pool = new Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    port: process.env.PGPORT,
-});
+// Database connection configuration (prefer DATABASE_URL for cloud/Render)
+const pool = process.env.DATABASE_URL
+  ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    })
+  : new Pool({
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      password: process.env.PGPASSWORD,
+      port: process.env.PGPORT,
+    });
 
 // Hashes a plain password.
 const hashPassword = async (password) => {
